@@ -25,6 +25,7 @@
 					return false;
 			}
 		}
+		scoreAtual = 100;
 		return true;
 	}
 	int Board::getrows(){
@@ -39,8 +40,16 @@
 		return false;
 	}
 	void Board::hitPos(int row, int col){
-		if(table[row][col]==Water)
+		if(table[row][col]==Water){
 			table[row][col]=WaterH;
-		else
+			scoreAtual = 50;
+		}
+		else{
 			table[row][col]=BoatH;
+			scoreAtual = 50;
+		}
+	}
+
+	double Board::getScoreAtual() {
+		return scoreAtual;
 	}
