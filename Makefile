@@ -7,5 +7,8 @@ BatalhaNaval.o: BatalhaNaval.cpp BatalhaNaval.h
 Board.o: Board.cpp Board.h
 	g++ -c Board.cpp -o Board.o
 
-all: Board.o main.o BatalhaNaval.o
-	g++ main.o BatalhaNaval.o Board.o -o jogo -lsfml-graphics -lsfml-window -lsfml-system
+Menu.o: Menu.cpp Menu.h
+	g++ -c Menu.cpp -o Menu.o
+
+all: Board.o main.o BatalhaNaval.o Menu.o
+	g++ main.o BatalhaNaval.o Board.o Menu.o -o jogo -lsfml-graphics -lsfml-window -lsfml-system
