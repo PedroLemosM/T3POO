@@ -13,7 +13,7 @@ string BatalhaNaval::getlayer(){
 void BatalhaNaval::setHighScore(double score){
 	ifstream out;
 	out.open("Maior_Score.txt");
-	double scoreCorrente = Board::getScoreAtual();
+	double scoreCorrente = score;
 	if(scoreCorrente > highScore)
 		out << scoreCorrente;
 
