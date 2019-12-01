@@ -7,9 +7,9 @@
 #include "Board.h"
 #include "Menu.h"
 
-int main(int argc, char const *argv[])
+int main()
 {
-	sf::RenderWindow window(sf::VideoMode(640, 480), "Batalha Naval", sf::Style::Close);
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Batalha Naval", sf::Style::Close);
 	window.setVerticalSyncEnabled(true);
 
 	Menu menu(window);

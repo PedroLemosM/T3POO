@@ -9,11 +9,12 @@ class Menu {
         ~Menu();
 
         void draw();
-
+        
     private:
         sf::RenderWindow& window;
         sf::Font font;
         sf::Text titulo;
+        sf::Text jogar;
 };
 
 #endif 
