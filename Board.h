@@ -4,7 +4,7 @@
 #include <string>
 
 #define Boat 1
-#define BoatH 3 
+#define BoatH 3
 #define Water 0
 #define WaterH 2
 
@@ -21,9 +21,11 @@ public:
 	int getCols();
 	bool validPos(int row, int col);
 	void hitPos(int row, int col);
+	double getScoreAtual;
 private:
 	int rows, cols;
 	int** table;
+	double scoreAtual;
 	
 };
 #endif

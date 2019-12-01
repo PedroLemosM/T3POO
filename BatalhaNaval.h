@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+#include "Board.h"
+
 using namespace std;
 class BatalhaNaval
 {
@@ -17,7 +19,7 @@ public:
 
 private:
 	string player;
+	double highScore;
 
-	
 };
 #endif
