@@ -2,6 +2,7 @@
 #define BATALHANAVAL_H
 #include <iostream>
 #include <string>
+#include <fstream>
 
 #include "Board.h"
 
