@@ -6,7 +6,7 @@
 			table[i]=new int[cols];
 		for (int i = 0; i < rows; ++i)
 			for (int j = 0; j < cols; ++j)
-				table[i][j]=Water;
+				table[i][j]=WATER;
 	}
 
 	Board::~Board(){
@@ -21,7 +21,7 @@
 			for (int j = 0; j < cols; ++j)
 			{
 				cout<<table[i][j]<<endl;
-				if(table[i][j]==Boat)
+				if(table[i][j]==BOAT)
 					return false;
 			}
 		}
@@ -35,21 +35,29 @@
 		return cols;
 	}
 	bool Board::validPos(int row, int col){
-		if(table[row][col]==Boat||table[row][col]==Water)
+		if(table[row][col]==BOAT||table[row][col]==WATER)
 			return true;
 		return false;
 	}
 	void Board::hitPos(int row, int col){
-		if(table[row][col]==Water){
-			table[row][col]=WaterH;
+		if(table[row][col]==WATER){
+			table[row][col]=WATER_H;
 			scoreAtual = 50;
 		}
 		else{
-			table[row][col]=BoatH;
+			table[row][col]=BOAT_H;
 			scoreAtual = 50;
 		}
 	}
 
 	double Board::getScoreAtual() {
 		return scoreAtual;
+	}
+
+	bool Board::addBarco(int row, int col) {
+		if(table[row][col] == WATER){
+			table[row][col] = BOAT;
+			return true;
+		}
+		return false;
 	}
