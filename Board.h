@@ -3,10 +3,10 @@
 #include <iostream>
 #include <string>
 
-#define Boat 1
-#define BoatH 3
-#define Water 0
-#define WaterH 2
+#define BOAT 1
+#define BOAT_H 3
+#define WATER 0
+#define WATER_H 2
 
 using namespace std;
 class Board
@@ -21,7 +21,9 @@ public:
 	int getCols();
 	bool validPos(int row, int col);
 	void hitPos(int row, int col);
-	double getScoreAtual;
+	double getScoreAtual();
+	bool addBarco(int row, int col);
+	
 private:
 	int rows, cols;
 	int** table;
