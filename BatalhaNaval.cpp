@@ -16,7 +16,7 @@ string BatalhaNaval::getlayer(){
 
 void BatalhaNaval::setHighScore(double scoreCorr){
 
-	ofstream out("Maior_Score.dat");
+	ofstream out("Maior_Score.txt");
 	if(scoreCorr > highScore)
 		out << scoreCorr;
 
@@ -25,7 +25,7 @@ void BatalhaNaval::setHighScore(double scoreCorr){
 
 double BatalhaNaval::getHighScore(){
 
-	ifstream in("Maior_Score.dat");
+	ifstream in("Maior_Score.txt");
 	in >> highScore;
 	in.close();
 
