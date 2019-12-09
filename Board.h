@@ -4,7 +4,7 @@
 #include <string>
 
 using namespace std;
-//				0    1       2          3
+//				0    	1      2        3
 enum Posicoes {WATER, BOAT, WATER_H, BOAT_H};
 
 class Board
@@ -19,14 +19,14 @@ public:
 	int getCols();
 	bool validPos(int row, int col);
 	void hitPos(int row, int col);
-	double getScoreAtual(int**);
-	bool addBarco(int, int);
+	double getScore(int** OutroTable);
+	bool addBarco(int xi, int yi, int xf ,int yf);
+	bool achaConflito(int xi, int yi, int xf ,int yf);
 	//bool addBarcoFULL(int, int, Direcoes, Barcos);
 	
 private:
 	int rows, cols;
 	int** table;
-	double scoreAtual;
 	
 };
 #endif

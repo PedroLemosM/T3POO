@@ -22,12 +22,11 @@
 		{
 			for (int j = 0; j < cols; ++j)
 			{
-				cout<<table[i][j]<<endl;
 				if(table[i][j]==BOAT)
 					return false;
 			}
 		}
-		scoreAtual = 100;
+
 		return true;
 	}
 	int Board::getrows(){
@@ -51,11 +50,28 @@
 	}
 
 
-	bool Board::addBarco(int r, int c) {
-		if(table[r][c] == WATER){
-			table[r][c] = BOAT;
+	bool Board::addBarco(int xi, int yi, int xf ,int yf) {
+		if(achaConflito(xi,yi,xf,yf))
+				return false;
+		if(xi==xf)
+			for (int i = yi; i < yi-yf; ++i)
+				table[xi][i] = BOAT;
+		else 
+			for (int i = xi; i < yi-yf; ++i)
+				table[i][yi] = BOAT;			
+		return true;
+	}
+	bool Board::achaConflito(int xi, int yi, int xf ,int yf){
+		if(xi==xf)
+			for (int i = yi; i < yi-yf; ++i)
+				if(i>rows||i>cols||table[xi][i] == BOAT)
+					return true;
+		else if(yi==yf)
+			for (int i = xi; i < yi-yf; ++i)
+				if(i>rows||i>cols|table[i][yi] == BOAT)
+					return true;
+		else
 			return true;
-		}
 		return false;
 	}
 
@@ -124,15 +140,17 @@
 		return flag;
 	}*/
 
-	double Board::getScoreAtual(int **OutroTable) {
+	double Board::getScore(int **OutroTable) {
+		double score=0;
 		for (int i = 0; i < rows; ++i){
 			for (int j = 0; j < cols; ++j){
-				if(OutroTable[i][j] == BOAT_H)
-					scoreAtual += 50;
-				if(table[i][j] == BOAT_H)
-					scoreAtual -= 20;
+				if(OutroTable[i][j] == BOAT_H){
+					score += 50;
+				
+				if(table[i][j] == BOAT_H){
+					score -= 20;
 			}
 		}
-		return scoreAtual;
+		return score;
 	}
 	
