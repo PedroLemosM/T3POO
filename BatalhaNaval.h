@@ -17,10 +17,12 @@ public:
 	bool finish();
 	void setHighScore(double s);
 	double getHighScore();
+	bool comparaScore(double a, double b)
 
 private:
 	string player;
 	double highScore;
+	Board pBord,bBord;
 
 };
 #endif

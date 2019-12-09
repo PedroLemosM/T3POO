@@ -1,7 +1,9 @@
 #include "BatalhaNaval.h"
 
-BatalhaNaval::BatalhaNaval(string player){
+BatalhaNaval::BatalhaNaval(string player,int rows,int cols){
 	this->player=player;
+	this->pBoard=Board(rows,cols);
+	this->bBoard=Board(rows,cols);
 }
 
 BatalhaNaval::~BatalhaNaval(){}
