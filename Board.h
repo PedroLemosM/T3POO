@@ -3,12 +3,10 @@
 #include <iostream>
 #include <string>
 
-#define BOAT 1
-#define BOAT_H 3
-#define WATER 0
-#define WATER_H 2
-
 using namespace std;
+//				0    1       2          3
+enum Posicoes {WATER, BOAT, WATER_H, BOAT_H};
+
 class Board
 {
 public:
@@ -21,8 +19,9 @@ public:
 	int getCols();
 	bool validPos(int row, int col);
 	void hitPos(int row, int col);
-	double getScoreAtual();
-	bool addBarco(int row, int col);
+	double getScoreAtual(int**);
+	bool addBarco(int, int);
+	//bool addBarcoFULL(int, int, Direcoes, Barcos);
 	
 private:
 	int rows, cols;

@@ -15,7 +15,7 @@ public:
 	void setPlayer(string player);
 	string getlayer();
 	bool finish();
-	void setHighScore(double score);
+	void setHighScore(double s);
 	double getHighScore();
 
 private:

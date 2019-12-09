@@ -7,7 +7,7 @@ int main(int argc, char const *argv[])
 {
 	int rows, cols;
 	string player;
-	cout<<"nome"<<endl;
+	cout<<"nome e tamanho tabuleiro(EX:10 10)"<<endl;
 	cin>>player>>rows>>cols;
 	BatalhaNaval jogo(player);
 	Board jogador(rows,cols);
@@ -20,8 +20,7 @@ int main(int argc, char const *argv[])
 		cin>>aRow>>aCol;
 		jogador.hitPos(aRow,aCol);
 		cout<<"hit"<<aRow<<aCol<<endl;
-		if(jogador.checkVitoria()==true)
-			;
+		if(jogador.checkVitoria()==true);
 		IA.hitPos(aRow,aCol);
 		cout<<"hit"<<aRow<<aCol<<endl;
 
