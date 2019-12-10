@@ -146,9 +146,11 @@
 			for (int j = 0; j < cols; ++j){
 				if(OutroTable[i][j] == BOAT_H){
 					score += 50;
+				}
 				
 				if(table[i][j] == BOAT_H){
 					score -= 20;
+				}
 			}
 		}
 		return score;

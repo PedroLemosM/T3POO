@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
 	string player;
 	cout<<"nome e tamanho tabuleiro(EX:10 10)"<<endl;
 	cin>>player>>rows>>cols;
-	BatalhaNaval jogo(player);
+	BatalhaNaval jogo(player, rows, cols);
 	Board jogador(rows,cols);
 	cout<<"criei"<<endl;
 	Board IA(rows,cols);

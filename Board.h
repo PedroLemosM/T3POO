@@ -27,6 +27,7 @@ public:
 private:
 	int rows, cols;
 	int** table;
+	double scoreAtual;
 	
 };
 #endif
