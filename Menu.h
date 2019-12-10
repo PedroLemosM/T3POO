@@ -1,9 +1,11 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include "Cena.h"
+
 #include <SFML/Graphics.hpp>
 
-class Menu {
+class Menu : public Cena {
     public:
         Menu(sf::RenderWindow&);
         ~Menu();
@@ -11,7 +13,6 @@ class Menu {
         void draw();
         
     private:
-        sf::RenderWindow& window;
         sf::Font font;
         sf::Text titulo;
         sf::Text jogar;

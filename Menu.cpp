@@ -1,6 +1,6 @@
 #include "Menu.h"
 
-Menu::Menu(sf::RenderWindow& window) : window(window) {
+Menu::Menu(sf::RenderWindow& window) : Cena(window) {
     font.loadFromFile("Fonts/arial.ttf");
 
     titulo.setFont(font);
