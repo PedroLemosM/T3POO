@@ -10,17 +10,19 @@ using namespace std;
 class BatalhaNaval
 {
 public:
-	BatalhaNaval(string player);
+	BatalhaNaval(string player, int rows, int cols);
 	~BatalhaNaval();
 	void setPlayer(string player);
 	string getlayer();
 	bool finish();
-	void setHighScore(double score);
+	void setHighScore(double s);
 	double getHighScore();
+	bool comparaScore(double a, double b);
 
 private:
 	string player;
 	double highScore;
+	Board pBoard,bBoard;
 
 };
 #endif

@@ -1,8 +1,7 @@
 #include "BatalhaNaval.h"
 
-BatalhaNaval::BatalhaNaval(string player){
-	this->player=player;
-}
+BatalhaNaval::BatalhaNaval(string player,int rows,int cols) : 
+	player(player), pBoard(rows, cols), bBoard(rows, cols) {}
 
 BatalhaNaval::~BatalhaNaval(){}
 
@@ -14,19 +13,18 @@ string BatalhaNaval::getlayer(){
 	return player;
 }
 
-void BatalhaNaval::setHighScore(double score){
-	ofstream out;
-	out.open("Maior_Score.txt");
-	double scoreCorrente = score;
-	if(scoreCorrente > highScore)
-		out << scoreCorrente;
+void BatalhaNaval::setHighScore(double scoreCorr){
+
+	ofstream out("Maior_Score.txt");
+	if(scoreCorr > highScore)
+		out << scoreCorr;
 
 	out.close();
 }
 
 double BatalhaNaval::getHighScore(){
-	ifstream in;
-	in.open("Maior_Score.txt");
+
+	ifstream in("Maior_Score.txt");
 	in >> highScore;
 	in.close();
 

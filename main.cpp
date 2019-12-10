@@ -9,6 +9,7 @@
 
 int main()
 {
+<<<<<<< HEAD
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Batalha Naval", sf::Style::Close);
 	window.setVerticalSyncEnabled(true);
 
@@ -33,6 +34,29 @@ int main()
 
 		window.display();
 	}
+=======
+	int rows, cols;
+	string player;
+	cout<<"nome e tamanho tabuleiro(EX:10 10)"<<endl;
+	cin>>player>>rows>>cols;
+	BatalhaNaval jogo(player, rows, cols);
+	Board jogador(rows,cols);
+	cout<<"criei"<<endl;
+	Board IA(rows,cols);
+	cout<<"criei"<<endl;
+
+	int aRow,aCol;
+	do{
+		cin>>aRow>>aCol;
+		jogador.hitPos(aRow,aCol);
+		cout<<"hit"<<aRow<<aCol<<endl;
+		if(jogador.checkVitoria()==true);
+		IA.hitPos(aRow,aCol);
+		cout<<"hit"<<aRow<<aCol<<endl;
+
+
+	}while(!IA.checkVitoria());
+>>>>>>> master
 
 	return 0;
 }
