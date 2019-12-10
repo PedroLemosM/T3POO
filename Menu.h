@@ -11,6 +11,7 @@ class Menu : public Cena {
         ~Menu();
 
         void draw();
+        void eventHandle(sf::Event&, GameState&);
         
     private:
         sf::Font font;

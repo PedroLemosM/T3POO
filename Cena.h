@@ -3,6 +3,8 @@
 
 #include <SFML/Graphics.hpp>
 
+enum GameState { MENU, JOGO };
+
 // Pensei numa classe abstrata assim pra poder
 // controlar as cenas depois: as classes filhas
 // vão ser menu, jogo, fim de jogo etc etc etc

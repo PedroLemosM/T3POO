@@ -22,3 +22,12 @@ void Menu::draw() {
     this->window.draw(this->titulo);
     this->window.draw(this->jogar);
 }
+
+void Menu::eventHandle(sf::Event& event, GameState& gs) {
+    switch (event.type) {
+        case sf::Event::MouseButtonReleased:
+            if (event.mouseButton.button == sf::Mouse::Left && jogar.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+                gs = JOGO;
+            break;
+    }
+}
