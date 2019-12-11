@@ -3,9 +3,9 @@
 	Board::Board(int rows,int cols):rows(rows),cols(cols){
 		scoreAtual = 0;
 
-		table=new int*[rows];
+		table=new Posicoes*[rows];
 		for (int i = 0; i < rows; ++i)
-			table[i]=new int[cols];
+			table[i]=new Posicoes[cols];
 		for (int i = 0; i < rows; ++i)
 			for (int j = 0; j < cols; ++j)
 				table[i][j]=WATER;
@@ -156,3 +156,6 @@
 		return score;
 	}
 	
+	Posicoes Board::getQuadrante(int row, int col) {
+		return table[row][col];
+	}
