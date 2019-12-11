@@ -54,10 +54,10 @@
 		if(achaConflito(xi,yi,xf,yf))
 				return false;
 		if(xi==xf)
-			for (int i = yi; i < yi-yf; ++i)
+			for (int i = yi; i < yf-yi; ++i)
 				table[xi][i] = BOAT;
 		else 
-			for (int i = xi; i < yi-yf; ++i)
+			for (int i = xi; i < yf-yi; ++i) 
 				table[i][yi] = BOAT;			
 		return true;
 	}

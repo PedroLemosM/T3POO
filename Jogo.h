@@ -8,7 +8,8 @@
 
 class Jogo : public Cena {
     private:
-        Board& jogador, computador;
+        Board& jogador;
+        Board& computador;
         sf::RectangleShape tabuleiroJ, tabuleiroC;
         std::vector<sf::RectangleShape> quadsJ, quadsC;
 

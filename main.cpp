@@ -2,6 +2,7 @@
 #include <string>
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 #include "BatalhaNaval.h"
 #include "Board.h"
@@ -16,6 +17,7 @@ int main()
 
 	Board jog(8, 8);
 	Board cop(8, 8);
+	jog.addBarco(0, 0, 0, 2);
 
 	Menu menu(window);
 	Jogo jogo(window, jog, cop);
@@ -25,7 +27,7 @@ int main()
 		// Manipulação de eventos
 		sf::Event event;
 		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed) 
 				window.close();
 			else {
 				switch (estado) {
@@ -35,7 +37,6 @@ int main()
 				}
 			}
 		}
-
 		// Desenhos
 		window.clear(sf::Color(201, 108, 55));
 

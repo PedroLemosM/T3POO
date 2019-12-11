@@ -23,7 +23,11 @@ Jogo::Jogo(sf::RenderWindow& window, Board& jogador, Board& computador) : Cena(w
             // o tamanho, mexe nos const float ali em cima
 
             sf::RectangleShape quadranteJ, quadranteC;
-            quadranteJ.setFillColor(sf::Color::Blue);
+            if (jogador.getQuadrante(i, j) == BOAT)
+                quadranteJ.setFillColor(sf::Color::Red);
+            else
+                quadranteJ.setFillColor(sf::Color::Blue);
+
             quadranteJ.setSize(sf::Vector2f( (tam - (cols+1)*tamBorda)/cols, (tam - (rows+1)*tamBorda)/rows));
 
             float posX = tabuleiroJ.getPosition().x + tamBorda*(j+1) + quadranteJ.getSize().x * j;
