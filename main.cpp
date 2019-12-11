@@ -14,8 +14,11 @@ int main()
 	window.setVerticalSyncEnabled(true);
 	GameState estado = MENU;
 
+	Board jog(8, 8);
+	Board cop(8, 8);
+
 	Menu menu(window);
-	Jogo jogo(window);
+	Jogo jogo(window, jog, cop);
 
 	while (window.isOpen()) {
 
