@@ -12,6 +12,7 @@ class Board
 public:
 	Board(int rows,int cols);
 	~Board();
+	Posicoes getQuadrante(int row, int col);
 	bool checkVitoria();
 	void setRows(int rows);
 	int getrows();
@@ -26,7 +27,7 @@ public:
 	
 private:
 	int rows, cols;
-	int** table;
+	Posicoes** table;
 	double scoreAtual;
 	
 };
