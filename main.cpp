@@ -38,7 +38,6 @@ int main()
 			}
 		}
 		// Desenhos
-		window.clear(sf::Color(201, 108, 55));
 
 		switch (estado) {
 			case MENU:

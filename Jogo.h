@@ -11,7 +11,8 @@ class Jogo : public Cena {
         Board& jogador;
         Board& computador;
         sf::RectangleShape tabuleiroJ, tabuleiroC;
-        std::vector<sf::RectangleShape> quadsJ, quadsC;
+        sf::Texture agua, fogo, barco, splash;
+        std::vector<sf::Sprite> quadsJ, quadsC;
 
     public:
         Jogo(sf::RenderWindow&, Board&, Board&);

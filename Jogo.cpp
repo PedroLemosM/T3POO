@@ -1,4 +1,5 @@
 #include "Jogo.h"
+#include <iostream>
 
 Jogo::Jogo(sf::RenderWindow& window, Board& jogador, Board& computador) : Cena(window), jogador(jogador), computador(computador) {
     const float tam = 350.f;
@@ -6,6 +7,11 @@ Jogo::Jogo(sf::RenderWindow& window, Board& jogador, Board& computador) : Cena(w
     const int rows = jogador.getrows();
     const int cols = jogador.getCols();
     
+    agua.loadFromFile("img/agua.png");
+    fogo.loadFromFile("img/fogo.png");
+    barco.loadFromFile("img/barco.png");
+    splash.loadFromFile("img/splash.png");
+
     // Centralizando verticalmente e colocando os dois tabuleiros
     // centralizados horizontalmente
     tabuleiroJ.setFillColor(sf::Color::Black);
@@ -21,25 +27,28 @@ Jogo::Jogo(sf::RenderWindow& window, Board& jogador, Board& computador) : Cena(w
             // Eu fiz umas contas com o tamanho da lacuna, o tamanho de
             // cada quadrante e sei la mais o que. se quiser mudar
             // o tamanho, mexe nos const float ali em cima
-
-            sf::RectangleShape quadranteJ, quadranteC;
+            sf::Sprite quadranteJ, quadranteC;
             if (jogador.getQuadrante(i, j) == BOAT)
-                quadranteJ.setFillColor(sf::Color::Red);
+                quadranteJ.setTexture(barco);
             else
-                quadranteJ.setFillColor(sf::Color::Blue);
+                quadranteJ.setTexture(agua);
 
-            quadranteJ.setSize(sf::Vector2f( (tam - (cols+1)*tamBorda)/cols, (tam - (rows+1)*tamBorda)/rows));
+            float sizeX = (tam - (cols+1)*tamBorda)/cols;
+            float sizeY = (tam - (rows+1)*tamBorda)/rows;
 
-            float posX = tabuleiroJ.getPosition().x + tamBorda*(j+1) + quadranteJ.getSize().x * j;
-            float posY = tabuleiroJ.getPosition().y + tamBorda*(i+1) + quadranteJ.getSize().y * i;
+
+            quadranteJ.setScale( sizeX / agua.getSize().x, sizeY / agua.getSize().y );
+
+            float posX = tabuleiroJ.getPosition().x + tamBorda*(j+1) + sizeX * j;
+            float posY = tabuleiroJ.getPosition().y + tamBorda*(i+1) + sizeY * i;
 
             quadranteJ.setPosition(posX, posY);
 
-            quadranteC.setFillColor(sf::Color::Blue);
-            quadranteC.setSize(sf::Vector2f( (tam - (cols+1)*tamBorda)/cols, (tam - (rows+1)*tamBorda)/rows));
+            quadranteC.setTexture(agua);
+            quadranteC.setScale( sizeX / agua.getSize().x, sizeY / agua.getSize().y );
 
-            posX = tabuleiroC.getPosition().x + tamBorda*(j+1) + quadranteC.getSize().x * j;
-            posY = tabuleiroC.getPosition().y + tamBorda*(i+1) + quadranteC.getSize().y * i;
+            posX = tabuleiroC.getPosition().x + tamBorda*(j+1) + sizeX * j;
+            posY = tabuleiroC.getPosition().y + tamBorda*(i+1) + sizeY * i;
 
             quadranteC.setPosition(posX, posY);
 
@@ -56,8 +65,8 @@ void Jogo::draw() {
     this->window.draw(tabuleiroC);
     this->window.draw(tabuleiroJ);
 
-    for (sf::RectangleShape& quad : quadsJ)
+    for (sf::Sprite& quad : quadsJ)
         this->window.draw(quad);
-    for (sf::RectangleShape& quad : quadsC)
+    for (sf::Sprite& quad : quadsC)
         this->window.draw(quad);
 }
