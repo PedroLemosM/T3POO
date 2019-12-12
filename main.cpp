@@ -17,7 +17,6 @@ int main()
 
 	Board jog(8, 8);
 	Board cop(8, 8);
-	jog.addBarco(0, 0, 0, 2);
 
 	Menu menu(window);
 	Jogo jogo(window, jog, cop);
@@ -33,6 +32,9 @@ int main()
 				switch (estado) {
 					case MENU:
 						menu.eventHandle(event, estado);
+						break;
+					case JOGO:
+						jogo.eventHandle(event);
 						break;
 				}
 			}

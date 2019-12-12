@@ -56,6 +56,15 @@ Jogo::Jogo(sf::RenderWindow& window, Board& jogador, Board& computador) : Cena(w
             quadsC.push_back(quadranteC);
         }
     }
+
+    momento = POSICIONANDO;
+
+    font.loadFromFile("Fonts/arial.ttf");
+    texto.setFont(font);
+    texto.setString("Posicione seus barcos!");
+    texto.setCharacterSize(30);
+    texto.setFillColor(sf::Color::Black);
+    texto.setPosition((window.getSize().x - texto.getGlobalBounds().width) / 2, 50);
 }
 
 Jogo::~Jogo() {}
@@ -64,9 +73,29 @@ void Jogo::draw() {
     this->window.clear(sf::Color(173, 216, 230));
     this->window.draw(tabuleiroC);
     this->window.draw(tabuleiroJ);
+    this->window.draw(texto);
 
     for (sf::Sprite& quad : quadsJ)
         this->window.draw(quad);
     for (sf::Sprite& quad : quadsC)
         this->window.draw(quad);
+}
+
+void Jogo::eventHandle(sf::Event& event) {
+    switch (momento) {
+        case POSICIONANDO:
+            switch (event.type) {
+                case sf::Event::MouseButtonPressed:
+                    if (event.mouseButton.button == sf::Mouse::Left) {
+                        for (sf::Sprite& quadrante : quadsJ) {
+                            if (quadrante.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                                quadrante.setTexture(barco);
+                                break;
+                            }
+                        }
+                    }
+                    break;
+            }
+            break;
+    }
 }
