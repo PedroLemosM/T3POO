@@ -58,13 +58,15 @@ Jogo::Jogo(sf::RenderWindow& window, Board& jogador, Board& computador) : Cena(w
     }
 
     momento = POSICIONANDO;
+    barcos = 0;
+    vertical = false;
 
     font.loadFromFile("Fonts/arial.ttf");
     texto.setFont(font);
-    texto.setString("Posicione seus barcos!");
+    texto.setString(L"Posicione seus barcos!\n(aperte espaço para rotacionar)");
     texto.setCharacterSize(30);
     texto.setFillColor(sf::Color::Black);
-    texto.setPosition((window.getSize().x - texto.getGlobalBounds().width) / 2, 50);
+    texto.setPosition((window.getSize().x - texto.getGlobalBounds().width) / 2, 45);
 }
 
 Jogo::~Jogo() {}
@@ -87,15 +89,114 @@ void Jogo::eventHandle(sf::Event& event) {
             switch (event.type) {
                 case sf::Event::MouseButtonPressed:
                     if (event.mouseButton.button == sf::Mouse::Left) {
-                        for (sf::Sprite& quadrante : quadsJ) {
-                            if (quadrante.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
-                                quadrante.setTexture(barco);
-                                break;
-                            }
+                        for (int i = 0; i < jogador.getrows(); i++) 
+                            for (int j = 0; j < jogador.getCols(); j++) {
+                                sf::Sprite quadrante = quadsJ[i*jogador.getCols() + j];
+                                if (quadrante.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                                    if (vertical) {
+                                        switch (barcos) {
+                                            case 0: // Carrier (size 5)
+                                                if (!jogador.achaConflito(i, j, i + 4, j)) {
+                                                    jogador.addBarco(i, j, i + 4, j);
+                                                    barcos++;
+                                                    this->updateBoardJ();
+                                                }
+                                                break;
+                                            case 1: // Battleship (size 4)
+                                                if (!jogador.achaConflito(i, j, i + 3, j)) {
+                                                    jogador.addBarco(i, j, i + 3, j);
+                                                    barcos++;
+                                                    this->updateBoardJ();
+                                                }
+                                                break;
+                                            case 2: // Cruiser (size 3)
+                                            case 3: // Submarine (size 3)
+                                                if (!jogador.achaConflito(i, j, i + 2, j)) {
+                                                    jogador.addBarco(i, j, i + 2, j);
+                                                    barcos++;
+                                                    this->updateBoardJ();
+                                                }
+                                                break;
+                                            case 4: // Destroyer (size 2)
+                                                if (!jogador.achaConflito(i, j, i + 1, j)) {
+                                                    jogador.addBarco(i, j, i + 1, j);
+                                                    barcos++;
+                                                    this->updateBoardJ();
+                                                    this->updateMomento(JOGANDO);
+                                                }
+                                                break;
+                                        }
+                                    } else {
+                                        switch (barcos) {
+                                            case 0: // Carrier (size 5)
+                                                if (!jogador.achaConflito(i, j, i, j + 4)) {
+                                                    jogador.addBarco(i, j, i, j + 4);
+                                                    barcos++;
+                                                    this->updateBoardJ();
+                                                }
+                                                break;
+                                            case 1: // Battleship (size 4)
+                                                if (!jogador.achaConflito(i, j, i, j + 3)) {
+                                                    jogador.addBarco(i, j, i, j + 3);
+                                                    barcos++;
+                                                    this->updateBoardJ();
+                                                }
+                                                break;
+                                            case 2: // Cruiser (size 3)
+                                            case 3: // Submarine (size 3)
+                                                if (!jogador.achaConflito(i, j, i, j + 2)) {
+                                                    jogador.addBarco(i, j, i, j + 2);
+                                                    barcos++;
+                                                    this->updateBoardJ();
+                                                }
+                                                break;
+                                            case 4: // Destroyer (size 2)
+                                                if (!jogador.achaConflito(i, j, i, j + 1)) {
+                                                    jogador.addBarco(i, j, i, j + 1);
+                                                    barcos++;
+                                                    this->updateBoardJ();
+                                                    this->updateMomento(JOGANDO);
+                                                }
+                                                break;
+                                        }
+                                    }
+                                }
                         }
                     }
+                    break;
+                case sf::Event::KeyPressed:
+                    if (event.key.code == sf::Keyboard::Space)
+                        vertical = !vertical;
                     break;
             }
             break;
     }
+}
+
+void Jogo::updateBoardJ() {
+    for (int i = 0; i < jogador.getrows(); i++)
+        for (int j = 0; j < jogador.getCols(); j++) {
+            switch (jogador.getQuadrante(i, j)) {
+                case WATER:
+                    quadsJ[i*jogador.getCols() + j].setTexture(agua);
+                    break;
+                case BOAT:
+                    quadsJ[i*jogador.getCols() + j].setTexture(barco);
+                    break;
+                case BOAT_H:
+                    quadsJ[i*jogador.getCols() + j].setTexture(fogo);
+                    break;
+                case WATER_H:
+                    quadsJ[i*jogador.getCols() + j].setTexture(splash);
+                    break;
+            }
+        }
+}
+
+void Jogo::updateMomento(Momento m) {
+    if (m == JOGANDO) {
+        texto.setString("Batalha!");
+        texto.setPosition((window.getSize().x - texto.getGlobalBounds().width) / 2, 45);
+    }
+    momento = m;
 }

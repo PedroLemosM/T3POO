@@ -53,25 +53,22 @@
 	bool Board::addBarco(int xi, int yi, int xf ,int yf) {
 		if(achaConflito(xi,yi,xf,yf))
 				return false;
-		if(xi==xf)
-			for (int i = yi; i < yf-yi; ++i)
-				table[xi][i] = BOAT;
-		else 
-			for (int i = xi; i < yf-yi; ++i) 
-				table[i][yi] = BOAT;			
+
+		for (int i = xi; i <= xf; i++)
+			for (int j = yi; j <= yf; j++)
+				table[i][j] = BOAT;
+
 		return true;
 	}
 	bool Board::achaConflito(int xi, int yi, int xf ,int yf){
-		if(xi==xf)
-			for (int i = yi; i < yi-yf; ++i)
-				if(i>rows||i>cols||table[xi][i] == BOAT)
-					return true;
-		else if(yi==yf)
-			for (int i = xi; i < yi-yf; ++i)
-				if(i>rows||i>cols|table[i][yi] == BOAT)
-					return true;
-		else
+		if (xi >= rows || xf >= rows || yi >= cols || yf >= cols)
 			return true;
+
+		for (int i = xi; i <= xf; i++)
+			for (int j = yi; j <= yf; j++)
+				if (table[i][j] == BOAT)
+					return true;
+
 		return false;
 	}
 

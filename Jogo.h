@@ -11,7 +11,8 @@ enum Momento { POSICIONANDO, JOGANDO };
 class Jogo : public Cena {
     private:
         Momento momento;
-
+        int barcos;
+        bool vertical;
         Board& jogador;
         Board& computador;
         sf::RectangleShape tabuleiroJ, tabuleiroC;
@@ -27,6 +28,8 @@ class Jogo : public Cena {
 
         void draw();
         void eventHandle(sf::Event&);
+        void updateMomento(Momento);
+        void updateBoardJ();
 
 };
 

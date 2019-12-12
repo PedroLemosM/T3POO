@@ -40,7 +40,7 @@ int main()
 			}
 		}
 		// Desenhos
-
+		
 		switch (estado) {
 			case MENU:
 				menu.draw();
