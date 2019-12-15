@@ -6,7 +6,7 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
-enum Momento { POSICIONANDO, JOGANDO };
+enum Momento { POSICIONANDO, JOGANDO, VITORIA, DERROTA };
 
 class Jogo : public Cena {
     private:
@@ -21,15 +21,18 @@ class Jogo : public Cena {
 
         sf::Font font;
         sf::Text texto;
+        sf::Text voltar;
 
     public:
         Jogo(sf::RenderWindow&, Board&, Board&);
         ~Jogo();
 
         void draw();
-        void eventHandle(sf::Event&);
+        void eventHandle(sf::Event&, GameState&);
         void updateMomento(Momento);
         void updateBoardJ();
+        void updateBoardC();
+        void reset();
 
 };
 

@@ -16,5 +16,5 @@ Menu.o: Menu.cpp Menu.h
 Jogo.o: Jogo.cpp Jogo.h
 	g++ -c Jogo.cpp -o Jogo.o
 
-all: Board.o main.o BatalhaNaval.o Menu.o Cena.o Jogo.o
+all: Board.o main.o BatalhaNaval.o Menu.o Cena.o Jogo.o 
 	g++ main.o BatalhaNaval.o Board.o Menu.o Cena.o Jogo.o -o jogo -lsfml-graphics -lsfml-window -lsfml-system

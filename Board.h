@@ -24,6 +24,7 @@ public:
 	bool addBarco(int xi, int yi, int xf ,int yf);
 	bool achaConflito(int xi, int yi, int xf ,int yf);
 	//bool addBarcoFULL(int, int, Direcoes, Barcos);
+	void reset();
 	
 private:
 	int rows, cols;

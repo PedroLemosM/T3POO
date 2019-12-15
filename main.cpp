@@ -34,11 +34,12 @@ int main()
 						menu.eventHandle(event, estado);
 						break;
 					case JOGO:
-						jogo.eventHandle(event);
+						jogo.eventHandle(event, estado);
 						break;
 				}
 			}
 		}
+
 		// Desenhos
 		
 		switch (estado) {

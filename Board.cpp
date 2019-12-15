@@ -156,3 +156,9 @@
 	Posicoes Board::getQuadrante(int row, int col) {
 		return table[row][col];
 	}
+
+void Board::reset() {
+		for (int i = 0; i < rows; ++i)
+			for (int j = 0; j < cols; ++j)
+				table[i][j]=WATER;
+}

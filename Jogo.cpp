@@ -1,16 +1,34 @@
 #include "Jogo.h"
 #include <iostream>
+#include <ctime>
+#include <cstdlib>
 
 Jogo::Jogo(sf::RenderWindow& window, Board& jogador, Board& computador) : Cena(window), jogador(jogador), computador(computador) {
     const float tam = 350.f;
     const float tamBorda = 4.f;
     const int rows = jogador.getrows();
     const int cols = jogador.getCols();
+    srand(time(NULL));
+
     
     agua.loadFromFile("img/agua.png");
     fogo.loadFromFile("img/fogo.png");
     barco.loadFromFile("img/barco.png");
     splash.loadFromFile("img/splash.png");
+
+    font.loadFromFile("Fonts/arial.ttf");
+    
+    texto.setFont(font);
+    texto.setString(L"Posicione seus barcos!\n(aperte espaço para rotacionar)");
+    texto.setCharacterSize(30);
+    texto.setFillColor(sf::Color::Black);
+    texto.setPosition((window.getSize().x - texto.getGlobalBounds().width) / 2, 45);
+
+    voltar.setFont(font);
+    voltar.setString("Voltar");
+    voltar.setCharacterSize(30);
+    voltar.setFillColor(sf::Color::Black);
+    voltar.setPosition((window.getSize().x - voltar.getGlobalBounds().width) / 2, 500);
 
     // Centralizando verticalmente e colocando os dois tabuleiros
     // centralizados horizontalmente
@@ -28,10 +46,7 @@ Jogo::Jogo(sf::RenderWindow& window, Board& jogador, Board& computador) : Cena(w
             // cada quadrante e sei la mais o que. se quiser mudar
             // o tamanho, mexe nos const float ali em cima
             sf::Sprite quadranteJ, quadranteC;
-            if (jogador.getQuadrante(i, j) == BOAT)
-                quadranteJ.setTexture(barco);
-            else
-                quadranteJ.setTexture(agua);
+            quadranteJ.setTexture(agua);
 
             float sizeX = (tam - (cols+1)*tamBorda)/cols;
             float sizeY = (tam - (rows+1)*tamBorda)/rows;
@@ -60,13 +75,6 @@ Jogo::Jogo(sf::RenderWindow& window, Board& jogador, Board& computador) : Cena(w
     momento = POSICIONANDO;
     barcos = 0;
     vertical = false;
-
-    font.loadFromFile("Fonts/arial.ttf");
-    texto.setFont(font);
-    texto.setString(L"Posicione seus barcos!\n(aperte espaço para rotacionar)");
-    texto.setCharacterSize(30);
-    texto.setFillColor(sf::Color::Black);
-    texto.setPosition((window.getSize().x - texto.getGlobalBounds().width) / 2, 45);
 }
 
 Jogo::~Jogo() {}
@@ -76,6 +84,8 @@ void Jogo::draw() {
     this->window.draw(tabuleiroC);
     this->window.draw(tabuleiroJ);
     this->window.draw(texto);
+    if (momento == VITORIA || momento == DERROTA)
+        this->window.draw(voltar);
 
     for (sf::Sprite& quad : quadsJ)
         this->window.draw(quad);
@@ -83,7 +93,7 @@ void Jogo::draw() {
         this->window.draw(quad);
 }
 
-void Jogo::eventHandle(sf::Event& event) {
+void Jogo::eventHandle(sf::Event& event, GameState& gs) {
     switch (momento) {
         case POSICIONANDO:
             switch (event.type) {
@@ -170,6 +180,42 @@ void Jogo::eventHandle(sf::Event& event) {
                     break;
             }
             break;
+        
+        case JOGANDO:
+            switch (event.type) {
+                case sf::Event::MouseButtonPressed:
+                    if (event.mouseButton.button == sf::Mouse::Left) {
+                        for (int i = 0; i < computador.getrows(); i++) 
+                            for (int j = 0; j < computador.getCols(); j++) {
+                                sf::Sprite quadrante = quadsC[i*jogador.getCols() + j];
+                                if (quadrante.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y) && computador.validPos(i, j)) {
+                                    computador.hitPos(i, j);
+                                    updateBoardC();
+
+                                    int iaX = rand() % jogador.getrows();
+                                    int iaY = rand() % jogador.getCols();
+                                    while (!jogador.validPos(iaX, iaY)) {
+                                        iaX = rand() % jogador.getrows();
+                                        iaY = rand() % jogador.getCols();
+                                    }
+                                    jogador.hitPos(iaX, iaY);
+                                    updateBoardJ();
+                                }
+                            }
+                    }
+                    break;
+            }
+            break;
+
+        case VITORIA:
+        case DERROTA:
+            if (event.type == sf::Event::MouseButtonPressed)
+                if (event.mouseButton.button == sf::Mouse::Left)
+                    if (voltar.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                        this->reset();
+                        gs = MENU;
+                    }
+            break;
     }
 }
 
@@ -191,12 +237,83 @@ void Jogo::updateBoardJ() {
                     break;
             }
         }
+
+    if (jogador.checkVitoria()) updateMomento(DERROTA);
+}
+
+void Jogo::updateBoardC() {
+    for (int i = 0; i < computador.getrows(); i++)
+        for (int j = 0; j < computador.getCols(); j++) {
+            switch (computador.getQuadrante(i, j)) {
+                case WATER:
+                    quadsC[i*computador.getCols() + j].setTexture(agua);
+                    break;
+                case BOAT:
+                    quadsC[i*computador.getCols() + j].setTexture(agua);
+                    break;
+                case BOAT_H:
+                    quadsC[i*computador.getCols() + j].setTexture(fogo);
+                    break;
+                case WATER_H:
+                    quadsC[i*computador.getCols() + j].setTexture(splash);
+                    break;
+            }
+        }
+
+    if (computador.checkVitoria()) updateMomento(VITORIA);
 }
 
 void Jogo::updateMomento(Momento m) {
     if (m == JOGANDO) {
         texto.setString("Batalha!");
         texto.setPosition((window.getSize().x - texto.getGlobalBounds().width) / 2, 45);
+        int barcosIA = 0;
+        int tamanhos[] = {4, 3, 2, 2, 1};
+        bool verticalIA;
+
+        while (barcosIA < 5) {
+            float rand_f = static_cast<float>(rand()) / static_cast<float>(RAND_MAX);
+            if (rand_f >= 0.5) verticalIA = true;
+            else verticalIA = false;
+
+            int posX = rand() % this->computador.getrows();
+            int posY = rand() % this->computador.getCols();
+
+            if (verticalIA) {
+                if (!computador.achaConflito(posX, posY, posX + tamanhos[barcosIA], posY)) {
+                    computador.addBarco(posX, posY, posX + tamanhos[barcosIA], posY);
+                    barcosIA++;
+                }
+            } else {
+                if (!computador.achaConflito(posX, posY, posX, posY + tamanhos[barcosIA])) {
+                    computador.addBarco(posX, posY, posX, posY + tamanhos[barcosIA]);
+                    barcosIA++;
+                }
+            }
+        }
+    } else if (m == VITORIA) {
+        texto.setString(L"Vitória!");
+        texto.setPosition((window.getSize().x - texto.getGlobalBounds().width) / 2, 45);
+    } else if (m == DERROTA) {
+        texto.setString(L"Derrota!");
+        texto.setPosition((window.getSize().x - texto.getGlobalBounds().width) / 2, 45);
     }
     momento = m;
+}
+
+void Jogo::reset() {
+    texto.setString(L"Posicione seus barcos!\n(aperte espaço para rotacionar)");
+    texto.setPosition((window.getSize().x - texto.getGlobalBounds().width) / 2, 45);
+    momento = POSICIONANDO;
+    barcos = 0;
+    vertical = false;
+
+    jogador.reset();
+    computador.reset();
+    
+    for (int i = 0; i < jogador.getrows(); i++)
+        for (int j = 0; j < jogador.getCols(); j++) {
+            quadsC[i*jogador.getCols() + j].setTexture(agua);
+            quadsJ[i*jogador.getCols() + j].setTexture(agua);
+        }
 }
